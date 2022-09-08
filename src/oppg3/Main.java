@@ -41,41 +41,28 @@ class Burger {
 class Tray {
 
     private BlockingQueue<Burger> burgers;
-    private int capacity;
     private int total;
-    private Burger a;
 
     public Tray(int capacity) {
         this.burgers = new LinkedBlockingQueue<Burger>(4);
-        this.capacity = capacity;
         this.total = 0;
-        this.a = new Burger(1);
     }
 
     public void add(String name) {
-        while (this.burgers.size() == this.capacity) {
-            System.out.println(name + " has a burger ready but the tray is full, waiting...");
-            try {
-                burgers.put(a);
-            } catch (InterruptedException e) {
-            }
+        try {
+            this.burgers.put(new Burger(this.total));
+        } catch (InterruptedException e) {
         }
-        this.burgers.add(new Burger(this.total));
         System.out.println(name + " added a burger | Tray: " + this.toString());
         this.total++;
     }
 
-    public Burger take(String name) {
-        while (this.burgers.isEmpty()) {
-            System.out.println(name + " wants to take a burger, but the tray is empty, waiting ...");
-            try {
-                burgers.take();
-            } catch (InterruptedException e) {
-            }
+    public void take(String name) {
+        try {
+            this.burgers.take();
+        } catch (InterruptedException e) {
         }
-        Burger b = this.burgers.remove();
         System.out.println(name + " took a burger | Tray: " + this.toString());
-        return b;
     }
 
     public String toString() {
