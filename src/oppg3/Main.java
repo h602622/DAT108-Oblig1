@@ -50,11 +50,10 @@ class Tray {
 
     public void add(String name) {
         try {
-            this.burgers.put(new Burger(this.total));
+            this.burgers.put(new Burger(this.total++));
         } catch (InterruptedException e) {
         }
         System.out.println(name + " added a burger | Tray: " + this.toString());
-        this.total++;
     }
 
     public void take(String name) {
